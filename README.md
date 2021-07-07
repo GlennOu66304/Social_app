@@ -1,4 +1,16 @@
 # MERN APP build process
+## Run the project:
+1.back end: You need to cd to the api directory and run it by the code below:
+```
+cd api
+yarn start
+```
+2.Front end: You need to cd to the client directory and run it by the code below:
+```
+cd client
+yarn start
+```
+
 ## Node API
 [Node API](https://gist.github.com/GlennOu66304/1f20786073a5429cb8f53faeb5cdb09d). 
 

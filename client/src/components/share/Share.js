@@ -8,6 +8,9 @@ export default function Share() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER
     const desc = useRef()
     const [file, setFile] = useState(null);
+    const axionsInstance = axios.create({
+        baseURL: process.env.REACT_APP_API_URL
+    })
     const submitHandler = async (e) => {
         e.preventDefault();
         const newPost = {
@@ -21,7 +24,7 @@ export default function Share() {
             data.append('file', file)
             newPost.img = fileName;
             try {
-                await axios.post("/upload", data);
+                await axionsInstance.post("/upload", data);
             } catch (err) {
                 console.log(err)
             }
@@ -29,7 +32,7 @@ export default function Share() {
         }
 
         try {
-            await axios.post("/posts", newPost)
+            await axionsInstance.post("/posts", newPost)
             window.location.reload()
         } catch (err) {
 

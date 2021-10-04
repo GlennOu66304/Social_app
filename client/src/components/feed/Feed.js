@@ -9,12 +9,15 @@ import { AuthContext } from '../../contexts/AuthContext';
 export default function Feed({ username }) {
     const [post, setPost] = useState([]);
     const { user } = useContext(AuthContext)
+    const axionsInstance = axios.create({
+        baseURL: process.env.REACT_APP_API_URL
+    })
 
     useEffect(() => {
         const FetchPosts = async () => {
             const res = username
-                ? await axios.get('/posts/profile/' + username)
-                : await axios.get('posts/timeline/' + user._id)
+                ? await axionsInstance.get('/posts/profile/' + username)
+                : await axionsInstance.get('posts/timeline/' + user._id)
             setPost(
                 res.data.sort((p1, p2) => {
                     return new Date(p2.createdAt) - new Date(p1.createdAt);

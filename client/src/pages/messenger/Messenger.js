@@ -15,10 +15,14 @@ export default function Messenger() {
     const [messages, setMessages] = useState([]);
     const [newMessages, setNewMessages] = useState([]);
     const scrollRef = useRef()
+    const axionsInstance = axios.create({
+        baseURL: process.env.REACT_APP_API_URL
+    })
+
 
     useEffect(() => {
         const getConversations = async () => {
-            const res = await axios.get('/conversation/' + user._id)
+            const res = await axionsInstance.get('/conversation/' + user._id)
             setConversation(res.data)
             // console.log(res)
         }
@@ -28,7 +32,7 @@ export default function Messenger() {
     useEffect(() => {
         const getMessages = async () => {
             try {
-                const res = await axios.get("/message/" + currentChat?._id)
+                const res = await axionsInstance.get("/message/" + currentChat?._id)
                 setMessages(res.data);
                 console.log(res)
             } catch (err) {
@@ -54,7 +58,7 @@ export default function Messenger() {
         }
 
         try {
-            const res = await axios.post("/message", Message)
+            const res = await axionsInstance.post("/message", Message)
             setMessages([...messages, res.data])
             setNewMessages("")
 

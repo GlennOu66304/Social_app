@@ -11,13 +11,15 @@ export default function Profile() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER
     const [user, setUser] = useState({});
     const username = useParams().username
-
+    const axionsInstance = axios.create({
+        baseURL: process.env.REACT_APP_API_URL
+    })
 
 
 
     useEffect(() => {
         const FetchUser = async () => {
-            const res = await axios.get(`/users/?username=${username}`)
+            const res = await axionsInstance.get(`/users/?username=${username}`)
             setUser(res.data)
         }
         FetchUser()

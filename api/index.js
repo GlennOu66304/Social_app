@@ -46,7 +46,7 @@ app.use('/api/auth', authRoute)
 app.use('/api/posts', postsRoute)
 app.use('/api/conversation', conversationRoute)
 app.use('/api/message', messageRoute)
-
+app.use(express.static("build"))
 
 dotenv.config()
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
@@ -54,6 +54,10 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 });
 app.use("/images", express.static(path.join(__dirname, 'public/images')))
 
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
+
 app.listen(8800, () => {
-  console.log("Back end server is running!")
+  console.log("Back end server 8800 is running!")
 })

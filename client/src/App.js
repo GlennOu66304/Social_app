@@ -24,17 +24,19 @@ function App() {
         </Route>
 
         <Route path="/login">
-
-          {user ? <Redirect to='/' /> : <Login />}
+          <Login />
+          {/* {user ? <Redirect to='/' /> : <Login />} */}
         </Route>
 
         <Route path="/register">
-          {user ? <Redirect to='/' /> : <Register />}
+          {/* {user ? <Redirect to='/' /> : <Register />} */}
+          <Register />
         </Route>
 
         <Route path="/messenger">
 
-          {user ? <Redirect to='/' /> : <Messenger />}
+          {/* {user ? <Redirect to='/' /> : <Messenger />} */}
+          <Messenger />
         </Route>
 
         <Route path="/profile/:username">

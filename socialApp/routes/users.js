@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 // define the home page route
 router.get('/', function (req, res) {
@@ -29,6 +31,15 @@ router.post('/register', async (req, res) => {
 
 })
 
+// create json web token
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, 'net ninja secret', {
+        expiresIn: maxAge
+    });
+};
+
+
 // login
 
 router.post('/login', async (req, res) => {
@@ -40,13 +51,22 @@ router.post('/login', async (req, res) => {
 
         !validPassword && res.status(404).json("password not found!");
 
-        res.status(200).json(user);
+        const token = createToken(user._id);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+        res.status(200).json({ user: user._id });
 
     } catch (err) {
         res.status(500).json(err);
     }
 
 })
+
+router.post('/logout', async (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
+})
+
 
 //Update  user
 router.put('/:id', async (req, res) => {

@@ -13,11 +13,14 @@ app.use(morgan('common'))
 
 const apiRoute = require('./routes/api')
 const usersRoute = require('./routes/users')
+const fileRoute = require('./routes/file')
 
 dotenv.config()
+
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log("Connected to Mangodb")
 });
+
 
 // basic url
 
@@ -27,8 +30,10 @@ app.get('/', function (req, res) {
 
 //api url routes
 app.use('/api', apiRoute)
+app.use('/api/qr', apiRoute)
 app.use('/users', usersRoute)
+app.use('/file', fileRoute)
 
-app.listen(8800, () => {
-    console.log("Back end server 8800 is running!")
+app.listen(8801, () => {
+    console.log("Back end server 8801 is running!")
 })

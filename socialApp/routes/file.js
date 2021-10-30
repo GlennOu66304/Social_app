@@ -13,25 +13,28 @@ var storage = multer.diskStorage({
     }
 });
 
-const upload = multer({
-    storage: storage, limits: { fileSize: 1000000 },
-
-})
+const upload = multer({ storage: storage })
 
 // // single file upload
 router.post('/profile', upload.single('avatar'), function (req, res, next) {
-    //     res.send(req.file)
-    // }, (error, req, res, next) => {
-    //     res.status(400).send({ error: error.message })
 
-    const files = req.files
-    res.send(files)
-}, (error, req, res, next) => {
-    if (!files) {
-        const error = new Error('Please choose files')
+    //     const files = req.files
+    //     res.send(files)
+    // }, (error, req, res, next) => {
+    //     if (!files) {
+    //         const error = new Error('Please choose files')
+    //         error.httpStatusCode = 400
+    //         return next(error)
+    //     }
+    const file = req.file
+    if (!file) {
+        const error = new Error('Please upload a file')
         error.httpStatusCode = 400
         return next(error)
+
     }
+    res.send(file)
+
 })
 
 
@@ -39,13 +42,13 @@ router.post('/profile', upload.single('avatar'), function (req, res, next) {
 // multiple file upload
 router.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
     const files = req.files
-    res.send(files)
-}, (error, req, res, next) => {
     if (!files) {
         const error = new Error('Please choose files')
         error.httpStatusCode = 400
         return next(error)
     }
+
+    res.send(files)
 })
 
 
